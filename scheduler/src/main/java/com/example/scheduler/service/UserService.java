@@ -14,6 +14,7 @@ import java.util.Optional;
 @Service
 @RequiredArgsConstructor
 public class UserService {
+    // User Repository 주입
     private final UserRepository userRepository;
 
     public UserResponseDto saveUser(String username, String email) {
@@ -50,7 +51,7 @@ public class UserService {
         }
 
         User user = optional.get(); // 조회 데이터 가져오기
-        user.updateUser(email); // 업데이트할 email 입력
+        user.updateUser(email); // 수정할 email 입력
         userRepository.save(user); // 이메일 업데이트
         return new UserResponseDto(user.getId(), user.getUsername(), user.getEmail(), user.getCreatedAt(), user.getModifiedAt());
     }

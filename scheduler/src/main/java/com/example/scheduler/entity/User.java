@@ -18,11 +18,15 @@ public class User extends BaseEntity {
     @Column(name = "USERNAME", columnDefinition = "NVARCHAR(128)", nullable = false)
     private String username;
 
+    @Column(name = "PASSWORD", columnDefinition = "NVARCHAR(128)", nullable = false)
+    private String password;
+
     @Column(name = "EMAIL", columnDefinition = "NVARCHAR(256)", nullable = false)
     private String email;
 
-    public User(String username, String email) {
+    public User(String username, String password , String email) {
         this.username = username;
+        this.password = password;
         this.email = email;
     }
 
