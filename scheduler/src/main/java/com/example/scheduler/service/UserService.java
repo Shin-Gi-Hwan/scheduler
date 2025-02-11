@@ -25,13 +25,13 @@ public class UserService {
         return new UserResponseDto(save.getId(), save.getUsername(), save.getEmail(), save.getCreatedAt(), save.getModifiedAt());
     }
 
-    public UserResponseDto findByUserId(Long userId) {
+    public UserResponseDto findByUserId(Long id) {
         // DB에 있는 ID 값 조회
-        Optional<User> optional = userRepository.findById(userId);
+        Optional<User> optional = userRepository.findById(id);
 
         // NPE 방지
         if (optional.isEmpty()) {
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "해당 " + userId + "를 찾을수 없습니다.");
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "해당 " + id + "를 찾을수 없습니다.");
         }
 
         // Optional 에서 user 를 가져옴
@@ -48,9 +48,21 @@ public class UserService {
         if (optional.isEmpty()) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "해당 " + id + "를 찾을수 없습니다.");
         }
-        User user = optional.get();
-        user.updateUser(email);
-        userRepository.save(user);
+
+        User user = optional.get(); // 조회 데이터 가져오기
+        user.updateUser(email); // 업데이트할 email 입력
+        userRepository.save(user); // 이메일 업데이트
         return new UserResponseDto(user.getId(), user.getUsername(), user.getEmail(), user.getCreatedAt(), user.getModifiedAt());
+    }
+
+    public void deleteUser(Long id) {
+        Optional<User> optional = userRepository.findById(id);
+
+        if (optional.isEmpty()) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "해당 " + id + "를 찾을수 없습니다.");
+        }
+
+        User user = optional.get(); // 데이터 가져오기
+        userRepository.delete(user); // 유저 삭제
     }
 }

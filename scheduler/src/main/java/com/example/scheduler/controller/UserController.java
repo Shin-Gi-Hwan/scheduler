@@ -10,10 +10,11 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequiredArgsConstructor
+@RequestMapping("/user")
 public class UserController {
     private final UserService userService;
 
-    @PostMapping("/user/create")
+    @PostMapping("/create")
     public ResponseEntity<UserResponseDto> createdUser(@RequestBody UserRequestDto dto) {
         UserResponseDto userResponseDto = userService.saveUser(
                 dto.getUsername(),
@@ -23,19 +24,25 @@ public class UserController {
         return new ResponseEntity<>(userResponseDto, HttpStatus.CREATED);
     }
 
-    @GetMapping("/user/{id}")
+    @GetMapping("/{id}")
     public ResponseEntity<UserResponseDto> getUserById(@PathVariable Long id) {
-
         UserResponseDto dto = userService.findByUserId(id);
 
         return new ResponseEntity<>(dto, HttpStatus.OK);
     }
 
-    @PatchMapping("/user/{id}")
+    @PatchMapping("/{id}")
     public ResponseEntity<UserResponseDto> updatedUser(@PathVariable Long id,
                                                        @RequestBody UserRequestDto dto) {
-
         UserResponseDto userResponseDto = userService.updateUser(id, dto.getEmail());
+
         return new ResponseEntity<>(userResponseDto, HttpStatus.OK);
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> deleteUser(@PathVariable Long id) {
+        userService.deleteUser(id);
+
+        return new ResponseEntity<>(HttpStatus.OK); // 데이터가 정상적으로 삭제 되었슴.
     }
 }
