@@ -6,6 +6,7 @@ import com.example.scheduler.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.util.Optional;
@@ -25,14 +26,31 @@ public class UserService {
     }
 
     public UserResponseDto findByUserId(Long userId) {
+        // DB에 있는 ID 값 조회
         Optional<User> optional = userRepository.findById(userId);
 
+        // NPE 방지
         if (optional.isEmpty()) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "해당 " + userId + "를 찾을수 없습니다.");
         }
 
+        // Optional 에서 user 를 가져옴
         User user = optional.get();
 
+        // UserResponseDto 로 반환
+        return new UserResponseDto(user.getId(), user.getUsername(), user.getEmail(), user.getCreatedAt(), user.getModifiedAt());
+    }
+
+    @Transactional
+    public UserResponseDto updateUser(Long id, String email) {
+        Optional<User> optional = userRepository.findById(id);
+
+        if (optional.isEmpty()) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "해당 " + id + "를 찾을수 없습니다.");
+        }
+        User user = optional.get();
+        user.updateUser(email);
+        userRepository.save(user);
         return new UserResponseDto(user.getId(), user.getUsername(), user.getEmail(), user.getCreatedAt(), user.getModifiedAt());
     }
 }
