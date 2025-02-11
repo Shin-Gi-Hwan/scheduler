@@ -18,6 +18,7 @@ public class UserController {
     public ResponseEntity<UserResponseDto> createdUser(@RequestBody UserRequestDto dto) {
         UserResponseDto userResponseDto = userService.saveUser(
                 dto.getUsername(),
+                dto.getPassword(),
                 dto.getEmail()
         );
 

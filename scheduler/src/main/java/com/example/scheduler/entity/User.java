@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
+import org.springframework.validation.annotation.Validated;
 
 import java.time.LocalDateTime;
 
@@ -24,6 +25,8 @@ public class User extends BaseEntity {
     @Column(name = "EMAIL", columnDefinition = "NVARCHAR(256)", nullable = false)
     private String email;
 
+    public User() {}
+
     public User(String username, String password , String email) {
         this.username = username;
         this.password = password;
@@ -33,6 +36,4 @@ public class User extends BaseEntity {
     public void updateUser(String email) {
         this.email = email;
     }
-
-    public User() {}
 }

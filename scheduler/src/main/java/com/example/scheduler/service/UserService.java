@@ -17,9 +17,9 @@ public class UserService {
     // User Repository 주입
     private final UserRepository userRepository;
 
-    public UserResponseDto saveUser(String username, String email) {
+    public UserResponseDto saveUser(String username, String password, String email) {
         // 유저 객체 생성
-        User user = new User(username, email);
+        User user = new User(username, password, email);
         // 유저 객체 저장
         User save = userRepository.save(user);
         // UserResponseDto 로 반환
