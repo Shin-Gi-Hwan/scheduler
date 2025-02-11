@@ -6,10 +6,7 @@ import com.example.scheduler.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequiredArgsConstructor
@@ -24,5 +21,13 @@ public class UserController {
         );
 
         return new ResponseEntity<>(userResponseDto, HttpStatus.CREATED);
+    }
+
+    @GetMapping("/user/{id}")
+    public ResponseEntity<UserResponseDto> getUserById(@PathVariable Long id) {
+
+        UserResponseDto dto = userService.findByUserId(id);
+
+        return new ResponseEntity<>(dto, HttpStatus.OK);
     }
 }
