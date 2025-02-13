@@ -3,7 +3,9 @@
 
 <details><summary>
 </summary>
-  ![image](https://github.com/user-attachments/assets/8fa147e8-fd49-40fa-a2b0-d6e7cb027ef7)
+  
+![image](https://github.com/user-attachments/assets/ed1b3e08-cc8e-412c-b23f-5be53b367921)
+
 </details>
 
 ---
@@ -11,12 +13,16 @@
 
 <details><summary>
 </summary>
-![image](https://github.com/user-attachments/assets/506bf200-7883-4249-b0b9-1d56249ce60b)
+  
+  ![image](https://github.com/user-attachments/assets/3b9a1716-d848-4cda-9ed8-904609c56c8b)
+  
 </details>
 
 ---
 **SQL**
-
+<details><summary>
+</summary>
+  
 ```SQL
     CREATE TABLE SCHEDULE (
     ID BIGINT NOT NULL AUTO_INCREMENT,
@@ -56,6 +62,7 @@ CREATE TABLE COMMENT (
 );
   ```
 
+</details>
 
 ---
 ## **요구 사항 [필수]**
