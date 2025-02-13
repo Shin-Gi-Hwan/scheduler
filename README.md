@@ -3,8 +3,7 @@
 
 <details><summary>
 </summary>
-![화면 캡처 2025-02-13 130832](https://github.com/user-attachments/assets/a11d36b1-ef10-4f64-9b82-ddfa43726de2)
-  
+  ![image](https://github.com/user-attachments/assets/8fa147e8-fd49-40fa-a2b0-d6e7cb027ef7)
 </details>
 
 ---
@@ -12,9 +11,7 @@
 
 <details><summary>
 </summary>
-
 ![image](https://github.com/user-attachments/assets/506bf200-7883-4249-b0b9-1d56249ce60b)
-
 </details>
 
 ---
@@ -23,7 +20,7 @@
 <details><summary>
 </summary>
 ```SQL
-  CREATE TABLE SCHEDULE (
+    CREATE TABLE SCHEDULE (
     ID BIGINT NOT NULL AUTO_INCREMENT,
     USER_ID BIGINT,
     USERNAME NVARCHAR(128) NOT NULL,
@@ -59,7 +56,7 @@ CREATE TABLE COMMENT (
     FOREIGN KEY (USER_ID) REFERENCES USER(ID),
     FOREIGN KEY (SCHEDULE_ID) REFERENCES SCHEDULE(ID)
 );
-```
+  ```
 </details>
 
 ---
