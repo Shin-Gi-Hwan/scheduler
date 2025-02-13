@@ -17,8 +17,6 @@
 ---
 **SQL**
 
-<details><summary>
-</summary>
 ```SQL
     CREATE TABLE SCHEDULE (
     ID BIGINT NOT NULL AUTO_INCREMENT,
@@ -57,7 +55,7 @@ CREATE TABLE COMMENT (
     FOREIGN KEY (SCHEDULE_ID) REFERENCES SCHEDULE(ID)
 );
   ```
-</details>
+
 
 ---
 ## **요구 사항 [필수]**
