@@ -1,5 +1,6 @@
 package com.example.scheduler.service;
 
+import com.example.config.PasswordEncoder;
 import com.example.scheduler.dto.UserResponseDto;
 import com.example.scheduler.entity.User;
 import com.example.scheduler.repository.UserRepository;
@@ -18,12 +19,26 @@ public class UserService {
     private final UserRepository userRepository;
 
     public UserResponseDto saveUser(String username, String password, String email) {
+        PasswordEncoder passwordEncoder = new PasswordEncoder();
+        password = passwordEncoder.encode(password);
         // 유저 객체 생성
         User user = new User(username, password, email);
         // 유저 객체 저장
         User save = userRepository.save(user);
         // UserResponseDto 로 반환
         return new UserResponseDto(save.getId(), save.getUsername(), save.getEmail(), save.getCreatedAt(), save.getModifiedAt());
+    }
+
+    public UserResponseDto loginUser(String email, String password) {
+        PasswordEncoder passwordEncoder = new PasswordEncoder();
+        User user = userRepository.findByEmail(email)
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.UNAUTHORIZED, "이메일이 존재하지 않습니다."));
+
+        if (!passwordEncoder.matches(password, user.getPassword())) {
+            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "비밀번호가 일치하지 않습니다.");
+        }
+
+        return new UserResponseDto(user.getId(), user.getUsername(), user.getEmail(), user.getCreatedAt(), user.getModifiedAt());
     }
 
     public UserResponseDto findByUserId(Long id) {

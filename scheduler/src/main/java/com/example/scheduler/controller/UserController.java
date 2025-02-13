@@ -1,8 +1,11 @@
 package com.example.scheduler.controller;
 
+import com.example.scheduler.dto.LoginRequestDto;
 import com.example.scheduler.dto.UserRequestDto;
 import com.example.scheduler.dto.UserResponseDto;
 import com.example.scheduler.service.UserService;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -14,8 +17,8 @@ import org.springframework.web.bind.annotation.*;
 public class UserController {
     private final UserService userService;
 
-    @PostMapping("/created")
-    public ResponseEntity<UserResponseDto> createdUser(@RequestBody UserRequestDto dto) {
+    @PostMapping("/signup")
+    public ResponseEntity<UserResponseDto> signupUser(@RequestBody UserRequestDto dto) {
         UserResponseDto userResponseDto = userService.saveUser(
                 dto.getUsername(),
                 dto.getPassword(),
@@ -23,6 +26,17 @@ public class UserController {
         );
 
         return new ResponseEntity<>(userResponseDto, HttpStatus.CREATED);
+    }
+
+    @PostMapping("/signin")
+    public ResponseEntity<UserResponseDto> signInUser(@RequestBody LoginRequestDto dto, HttpServletRequest request) {
+        UserResponseDto userResponseDto = userService.loginUser(dto.getEmail(), dto.getPassword());
+
+        // 로그인 성공 시 세션 생성 및 저장
+        HttpSession session = request.getSession(true);
+        session.setAttribute("userEmail", userResponseDto.getEmail());
+
+        return new ResponseEntity<>(userResponseDto, HttpStatus.OK);
     }
 
     @GetMapping("/{id}")
