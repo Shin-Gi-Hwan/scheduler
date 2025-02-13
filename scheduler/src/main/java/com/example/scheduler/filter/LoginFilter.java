@@ -15,7 +15,9 @@ public class LoginFilter implements Filter {
     private static final String[] WHITE_LIST = {"/", "/user/signup", "/user/signin", "/logout"};
 
     @Override
-    public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain)
+    public void doFilter(ServletRequest request,
+                         ServletResponse response,
+                         FilterChain chain)
             throws IOException, ServletException {
 
         HttpServletRequest httpRequest = (HttpServletRequest) request;
@@ -26,7 +28,7 @@ public class LoginFilter implements Filter {
 
         if (!isWhiteList(requestURI)) {
             HttpSession session = httpRequest.getSession(false);
-            if (session == null || session.getAttribute("userEmail") == null) {
+            if (session == null || session.getAttribute("sessionKey") == null) {
                 log.warn("인증되지 않은 요청 차단");
                 httpResponse.sendError(HttpServletResponse.SC_UNAUTHORIZED, "로그인이 필요합니다.");
                 return;

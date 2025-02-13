@@ -6,6 +6,7 @@ import com.example.scheduler.dto.UserResponseDto;
 import com.example.scheduler.service.UserService;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -32,10 +33,6 @@ public class UserController {
     public ResponseEntity<UserResponseDto> signInUser(@RequestBody LoginRequestDto dto, HttpServletRequest request) {
         UserResponseDto userResponseDto = userService.loginUser(dto.getEmail(), dto.getPassword());
 
-        // 로그인 성공 시 세션 생성 및 저장
-        HttpSession session = request.getSession(true);
-        session.setAttribute("userEmail", userResponseDto.getEmail());
-
         return new ResponseEntity<>(userResponseDto, HttpStatus.OK);
     }
 
@@ -54,6 +51,7 @@ public class UserController {
         return new ResponseEntity<>(userResponseDto, HttpStatus.OK);
     }
 
+    @Transactional
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteUser(@PathVariable Long id) {
         userService.deleteUser(id);

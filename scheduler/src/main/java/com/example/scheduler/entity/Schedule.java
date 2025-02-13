@@ -16,7 +16,7 @@ public class Schedule extends BaseEntity {
     @Column(name = "ID", columnDefinition = "BIGINT", nullable = false)
     private Long id;
 
-    @Column(name = "USERNAME", columnDefinition = "NVARCHAR(128)", nullable = false)
+    @Column(name = "USERNAME", columnDefinition = "NVARCHAR(128)", nullable = true)
     private String username;
 
     @Column(name = "TITLE", columnDefinition = "NVARCHAR(256)", nullable = false)
@@ -24,6 +24,9 @@ public class Schedule extends BaseEntity {
 
     @Column(name = "CONTENT", columnDefinition = "NVARCHAR(1000)", nullable = false)
     private String content;
+
+    @Column(name = "DELETED", columnDefinition = "NVARCHAR(16)", nullable = false)
+    private String deleted;
 
     @Setter
     @ManyToOne
@@ -36,6 +39,7 @@ public class Schedule extends BaseEntity {
         this.username = username;
         this.title = title;
         this.content = content;
+        this.deleted = "false";
     }
 
     public void update(String title, String content) {

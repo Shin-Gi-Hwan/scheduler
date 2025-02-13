@@ -3,6 +3,7 @@ package com.example.scheduler.service;
 import com.example.config.PasswordEncoder;
 import com.example.scheduler.dto.UserResponseDto;
 import com.example.scheduler.entity.User;
+import com.example.scheduler.repository.ScheduleRepository;
 import com.example.scheduler.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -17,6 +18,7 @@ import java.util.Optional;
 public class UserService {
     // User Repository 주입
     private final UserRepository userRepository;
+    private final ScheduleRepository scheduleRepository;
 
     public UserResponseDto saveUser(String username, String password, String email) {
         PasswordEncoder passwordEncoder = new PasswordEncoder();
@@ -77,8 +79,12 @@ public class UserService {
         if (optional.isEmpty()) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "해당 " + id + "를 찾을수 없습니다.");
         }
-
         User user = optional.get(); // 데이터 가져오기
+
+        scheduleRepository.updateDeletedFlagByUserId(id);
+
+        scheduleRepository.detachUserFromScheduler(id);
+
         userRepository.delete(user); // 유저 삭제
     }
 }
